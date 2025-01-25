@@ -54,7 +54,7 @@ export default async function Hero() {
                     <Link 
                         href="/Product" 
                         className="flex w-1/3 items-center jsutify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200">
-                            
+                        Shop All
                     </Link>
                 </div>
             </div>
