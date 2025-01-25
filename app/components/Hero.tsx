@@ -30,15 +30,32 @@ export default async function Hero() {
                             src = {urlFor(data.image1).url()}
                             alt = "Clear Photo"
                             className= "h-full w-full object-cover object-center"
+                            priority
                             width = {500}
                             height = {500}
                             />
                     </div>
 
+                    <div className="overflow-hidden rounded-lg bg-gray-100 shadow-lg">
+                        <Image 
+                            src = {urlFor(data.image2).url()}
+                            alt = "Clear Photo"
+                            className= "h-full w-full object-cover object-center"
+                            priority
+                            width = {500}
+                            height = {500}
+                            />
+                    </div>
+                </div>
+            </div>
 
-
-
-
+            <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
+                <div className="flex h-12 w-64 divide-x overflow-hidden rounded-lg border">
+                    <Link 
+                        href="/Product" 
+                        className="flex w-1/3 items-center jsutify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200">
+                            
+                    </Link>
                 </div>
             </div>
         </section>
