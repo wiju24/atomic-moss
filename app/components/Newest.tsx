@@ -1,6 +1,7 @@
-import { ArrowRight, Link, Image } from "lucide-react";
+import { ArrowRight, Link } from "lucide-react";
 import { simplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
+import Image from "next/image"
 
 async function getData() {
     const query = `*[_type == "product"[0...4] | order(_createdAt desc){
@@ -34,16 +35,15 @@ export default async function Newest() {
                     {data.map((product)=>(
                         <div key={product._id} className="group relative">
                             <div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-80">
-                                <Image 
+                                <Image                                     
                                     src={product.imageUrl} 
                                     alt="Product Image" 
                                     className="w-full h-full object-cover object-center lg:h-full lg:w-full" 
                                     width={300} 
-                                    height={300}/>
+                                    height={300} /> 
                             </div>
                         </div>
                     ))}
-
                 </div>
             </div>
         </div>
