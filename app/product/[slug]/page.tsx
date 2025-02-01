@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Star, Truck } from "lucide-react";
 
 async function getData (slug: string) {
-    const query = `*[_type == "product" && slug.current == "original"][0] {
+    const query = `*[_type == "product" && slug.current == "${slug}"][0] {
         _id,
             images,
             price,
