@@ -59,7 +59,7 @@ export default async function ProductPge({
                                     ${data.price}
                                 </span>
                                 <span className="mb-0.5 text-red-500 line-through">
-                                    ${data.price + 5.99}
+                                    ${data.price + 5}
                                 </span>
                             </div>
                             <span className="text-sm text-gray-500">
