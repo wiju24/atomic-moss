@@ -7,7 +7,8 @@ import {ShoppingBag} from 'lucide-react'
 
 const links = [
     {name: "Home", href: "/"},
-    {name: "Product", href: "/Product"},
+    {name: "Bottles", href: "/Bottles"},
+    {name: "Topicals", href: "/Topicals"},
 ]
 
 export default function Navbar() {
