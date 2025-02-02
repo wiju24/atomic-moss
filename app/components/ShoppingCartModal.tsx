@@ -23,6 +23,7 @@ export default function ShoppingCartModal() {
 
   async function handleCheckoutClick(event: any) {
     event.preventDefault();
+    console.log(cartDetails)
     try {
       const result = await redirectToCheckout();
       if (result?.error) {
@@ -99,7 +100,9 @@ export default function ShoppingCartModal() {
             </p>
 
             <div className="mt-6">
-              <Button onClick={handleCheckoutClick} className="w-full">
+              <Button 
+                onClick={handleCheckoutClick} 
+                className="w-full">
                 Checkout
               </Button>
             </div>
