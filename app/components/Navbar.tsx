@@ -20,7 +20,7 @@ return (
         <div className="flex items-center justify-between mx-auto max-w-2xl sm:px6 lg:max-w-7xl">
             <Link href="/">
                 <h1 className="text-2xl md:text-4xl font-bold">
-                    Atomic<span className="text-primary">Moss</span>
+                    atomic<span className="text-primary">moss</span>
                 </h1>
             </Link>
 
