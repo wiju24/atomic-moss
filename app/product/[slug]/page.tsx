@@ -13,7 +13,8 @@ async function getData (slug: string) {
             name,
             description,
             "slug": slug.current,
-            "categoryName": category->name
+            "categoryName": category->name,
+            price_id
         }`;
 
 
