@@ -4,6 +4,7 @@ import ImageGallery from "@/app/components/ImageGallery";
 import { Button } from "@/components/ui/button";
 import { Star, Truck } from "lucide-react";
 import AddToBag from "@/app/components/AddToBag";
+import CheckoutNow from "@/app/components/CheckoutNow";
 
 async function getData (slug: string) {
     const query = `*[_type == "product" && slug.current == "${slug}"][0] {
@@ -81,7 +82,15 @@ export default async function ProductPge({
                             key={data._id}
                             price_id={data.price_id}
                             />
-                            <Button variant={"secondary"}>Checkout</Button>
+                            <CheckoutNow 
+                                currency="CAD" 
+                                description={data.description} 
+                                image={data.images[0]} 
+                                name={data.name} 
+                                price={data.price} 
+                                key={data._id}
+                                price_id={data.price_id}
+                            />
                         </div>
                         <p className="mt-12 text-base text-gray-500 tracking-wide">
                             {data.description}
