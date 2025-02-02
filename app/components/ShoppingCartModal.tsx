@@ -106,12 +106,12 @@ export default function ShoppingCartModal() {
 
             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
               <p>
-                OR{" "}
+                OR
                 <button
                   onClick={() => handleCartClick()}
                   className=" font-medium text-primary hover:text-primary/80"
                 >
-                  Continue Shopping
+                   Continue Shopping
                 </button>
               </p>
             </div>
