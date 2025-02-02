@@ -25,12 +25,21 @@ export default function ShoppingCartModal() {
     event.preventDefault();
     console.log(cartDetails)
     try {
+      const cartItems = Object.values(cartDetails ?? {}).map((entry) => ({
+        sku: entry.id,
+        quantity: entry.quantity,
+        price: entry.price, 
+      }));
+      if (cartItems.length === 0) {
+        console.log('No items in the cart!');
+        return;
+      }
       const result = await redirectToCheckout();
       if (result?.error) {
-        console.log("result");
+        console.error(result.error);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   return (
