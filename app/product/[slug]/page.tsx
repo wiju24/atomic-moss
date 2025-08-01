@@ -27,7 +27,7 @@ async function getData (slug: string) {
 export default async function ProductPge({
     params,
 }: {
-    params: {slug: string};
+    params: Promise<{slug: string}>;
 
 }) {
     const { slug } = await params;
