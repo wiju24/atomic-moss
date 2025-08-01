@@ -9,7 +9,7 @@ export interface ProductCart {
   description: string;
   price: number;
   currency: string;
-  image: any;
+  image: unknown;
   price_id: string;
 }
 
@@ -34,7 +34,8 @@ export default function AddToBag({
   return (
     <Button
       onClick={() => {
-        addItem(product), handleCartClick();
+        addItem(product);
+        handleCartClick();
       }}
     >
       Add To Cart
