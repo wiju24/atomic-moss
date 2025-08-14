@@ -17,7 +17,7 @@ export default async function Hero() {
             <div className="mb-8 flex flex-wrap justify-between md:mb-16">
                 <div className="mb-6 flex w-full flex-col justify-center sm:mb-12 lg:mb-0 lg:w-1/3 lg:pb-24 lg:pt-48">
                     <h1 className="mb-4 text-4xl font-bold text-black sm:text-5xl md:mb-8 md:text-6xl">
-                        Imagine the Entire Periodic Table in a bottle!
+                        The Element of Energy and Balance
                     </h1>
                     <p className="max-w-md leading-relaxed text-gray-500 xl:text-lg">
                         We sell only the most exclusive and high quality products for you.
@@ -62,7 +62,7 @@ export default async function Hero() {
                         About
                     </Link>
                     <Link 
-                        href="/Product" 
+                        href="/Contact" 
                         className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200">
                         Contact
                     </Link>
