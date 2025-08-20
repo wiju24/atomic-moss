@@ -24,20 +24,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                <p className="text-gray-600">info@atomicmoss.com</p>
-                <p className="text-gray-600">support@atomicmoss.com</p>
-              </div>
-            </div>
-
-            {/* Phone */}
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0">
-                <Phone className="h-6 w-6 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                <p className="text-gray-600">+1 (555) 123-4567</p>
-                <p className="text-gray-600">Mon-Fri: 9AM-6PM EST</p>
+                <p className="text-gray-600">orderatomicmoss@gmail.com</p>
               </div>
             </div>
 
@@ -49,9 +36,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Address</h3>
                 <p className="text-gray-600">
-                  123 Wellness Street<br />
-                  Natural Health District<br />
-                  New York, NY 10001
+                  Toronto, Ontario<br />
                 </p>
               </div>
             </div>
@@ -64,9 +49,8 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Business Hours</h3>
                 <p className="text-gray-600">
-                  Monday - Friday: 9:00 AM - 6:00 PM<br />
-                  Saturday: 10:00 AM - 4:00 PM<br />
-                  Sunday: Closed
+                  Monday - Friday: 9:00 AM - 9:00 PM<br />
+                  Saturday - Sunday: 9:00 AM - 6:00 PM<br />
                 </p>
               </div>
             </div>
@@ -160,12 +144,6 @@ export default function ContactPage() {
             <div className="flex justify-center space-x-4">
               <a href="#" className="text-gray-400 hover:text-primary transition duration-200">
                 <Instagram className="h-8 w-8" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition duration-200">
-                <Facebook className="h-8 w-8" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition duration-200">
-                <Twitter className="h-8 w-8" />
               </a>
             </div>
           </div>
