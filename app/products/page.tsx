@@ -1,9 +1,14 @@
+"use client";
+
 import { simplifiedProduct } from "../interface";
 import { client } from "../lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Plus, Minus, ShoppingCart } from "lucide-react";
+import { useShoppingCart } from "use-shopping-cart";
+import { useState, useEffect } from "react";
 
+// Move the data fetching to a separate function
 async function getData() {
     const query = `*[_type == "product"] | order(_createdAt desc){
         _id,
@@ -18,8 +23,69 @@ async function getData() {
     return data;
 }
 
-export default async function ProductsPage() {
-    const products: simplifiedProduct[] = await getData();
+export default function ProductsPage() {
+    const [products, setProducts] = useState<simplifiedProduct[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+    const { addItem } = useShoppingCart();
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const data = await getData();
+                setProducts(data);
+                // Initialize quantities for all products
+                const initialQuantities: { [key: string]: number } = {};
+                data.forEach((product: simplifiedProduct) => {
+                    initialQuantities[product._id] = 1;
+                });
+                setQuantities(initialQuantities);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    const handleQuantityChange = (productId: string, change: number) => {
+        setQuantities(prev => ({
+            ...prev,
+            [productId]: Math.max(1, (prev[productId] || 1) + change)
+        }));
+    };
+
+    const handleAddToCart = (product: simplifiedProduct) => {
+        const quantity = quantities[product._id] || 1;
+        
+        addItem({
+            id: product._id,
+            name: product.name,
+            price: product.price,
+            image: product.imageUrl,
+            currency: 'USD',
+            quantity: quantity
+        });
+
+        // Reset quantity to 1 after adding to cart
+        setQuantities(prev => ({
+            ...prev,
+            [product._id]: 1
+        }));
+    };
+
+    if (loading) {
+        return (
+            <div className="bg-white min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading products...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-white min-h-screen">
@@ -85,9 +151,33 @@ export default async function ProductsPage() {
                                     </p>
                                 </div>
                                 
-                                {/* Quick Add to Cart Button */}
-                                <div className="mt-4 opacity-0 group-hover:opacity-100 transition duration-200">
-                                    <button className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition duration-200 text-sm font-medium">
+                                {/* Quantity Selector and Add to Cart */}
+                                <div className="mt-4 opacity-0 group-hover:opacity-100 transition duration-200 space-y-3">
+                                    {/* Quantity Selector */}
+                                    <div className="flex items-center justify-center space-x-2">
+                                        <button
+                                            onClick={() => handleQuantityChange(product._id, -1)}
+                                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition duration-200"
+                                        >
+                                            <Minus className="h-4 w-4 text-gray-600" />
+                                        </button>
+                                        <span className="w-8 text-center text-sm font-medium text-gray-900">
+                                            {quantities[product._id] || 1}
+                                        </span>
+                                        <button
+                                            onClick={() => handleQuantityChange(product._id, 1)}
+                                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition duration-200"
+                                        >
+                                            <Plus className="h-4 w-4 text-gray-600" />
+                                        </button>
+                                    </div>
+                                    
+                                    {/* Add to Cart Button */}
+                                    <button 
+                                        onClick={() => handleAddToCart(product)}
+                                        className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition duration-200 text-sm font-medium flex items-center justify-center gap-2"
+                                    >
+                                        <ShoppingCart className="h-4 w-4" />
                                         Add to Cart
                                     </button>
                                 </div>
