@@ -8,7 +8,7 @@ import { useShoppingCart } from "use-shopping-cart";
 
 const links = [
     {name: "Home", href: "/"},
-    {name: "Sea Moss", href: "/Seamoss"},
+    {name: "Sea Moss", href: "/Bottles"},
     {name: "Contact Us", href: "/Contact"},
 ]
 
