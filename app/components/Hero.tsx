@@ -52,7 +52,7 @@ export default async function Hero() {
             <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
                 <div className="flex h-12 w-64 divide-x overflow-hidden rounded-lg border">
                     <Link 
-                        href="/Product" 
+                        href="/products" 
                         className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200">
                         Shop All
                     </Link>
