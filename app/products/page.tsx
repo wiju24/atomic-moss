@@ -1,27 +1,11 @@
 "use client";
 
 import { simplifiedProduct } from "../interface";
-import { client } from "../lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Filter, Plus, Minus, ShoppingCart } from "lucide-react";
 import { useShoppingCart } from "use-shopping-cart";
 import { useState, useEffect } from "react";
-
-// Move the data fetching to a separate function
-async function getData() {
-    const query = `*[_type == "product"] | order(_createdAt desc){
-        _id,
-        price,
-        name,
-        "slug": slug.current,
-        "categoryName": category->name,
-        "imageUrl": images[0].asset->url
-    }`;
-
-    const data = await client.fetch(query);
-    return data;
-}
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<simplifiedProduct[]>([]);
@@ -32,7 +16,11 @@ export default function ProductsPage() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const data = await getData();
+                const response = await fetch('/api/products');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const data = await response.json();
                 setProducts(data);
                 // Initialize quantities for all products
                 const initialQuantities: { [key: string]: number } = {};
