@@ -9,8 +9,10 @@ import { useState, useEffect } from "react";
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<simplifiedProduct[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<simplifiedProduct[]>([]);
     const [loading, setLoading] = useState(true);
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+    const [searchTerm, setSearchTerm] = useState("");
     const { addItem } = useShoppingCart();
 
     useEffect(() => {
@@ -22,6 +24,7 @@ export default function ProductsPage() {
                 }
                 const data = await response.json();
                 setProducts(data);
+                setFilteredProducts(data);
                 // Initialize quantities for all products
                 const initialQuantities: { [key: string]: number } = {};
                 data.forEach((product: simplifiedProduct) => {
@@ -38,6 +41,23 @@ export default function ProductsPage() {
         fetchProducts();
     }, []);
 
+    // Search functionality
+    useEffect(() => {
+        if (searchTerm.trim() === "") {
+            setFilteredProducts(products);
+        } else {
+            const filtered = products.filter((product) => {
+                const searchLower = searchTerm.toLowerCase();
+                return (
+                    product.name.toLowerCase().includes(searchLower) ||
+                    product.categoryName.toLowerCase().includes(searchLower) ||
+                    product.slug.toLowerCase().includes(searchLower)
+                );
+            });
+            setFilteredProducts(filtered);
+        }
+    }, [searchTerm, products]);
+
     const handleQuantityChange = (productId: string, change: number) => {
         setQuantities(prev => ({
             ...prev,
@@ -48,6 +68,7 @@ export default function ProductsPage() {
     const handleAddToCart = (product: simplifiedProduct) => {
         const quantity = quantities[product._id] || 1;
         
+        // Add item with the selected quantity
         addItem({
             id: product._id,
             name: product.name,
@@ -57,6 +78,9 @@ export default function ProductsPage() {
             quantity: quantity
         });
 
+        // Show success feedback (optional)
+        console.log(`Added ${quantity} ${product.name} to cart`);
+        
         // Reset quantity to 1 after adding to cart
         setQuantities(prev => ({
             ...prev,
@@ -92,7 +116,9 @@ export default function ProductsPage() {
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Search products..."
+                            placeholder="Search products by name, category, or type..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                         />
                     </div>
@@ -105,24 +131,29 @@ export default function ProductsPage() {
                 {/* Products Count */}
                 <div className="mb-6">
                     <p className="text-gray-600">
-                        Showing {products.length} product{products.length !== 1 ? 's' : ''}
+                        Showing {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}
+                        {searchTerm && ` for "${searchTerm}"`}
                     </p>
                 </div>
 
                 {/* Products Grid */}
-                {products.length > 0 ? (
+                {filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                        {products.map((product) => (
+                        {filteredProducts.map((product) => (
                             <div key={product._id} className="group relative">
-                                <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75 transition duration-200">
-                                    <Image
-                                        src={product.imageUrl}
-                                        alt={`${product.name} - Product Image`}
-                                        className="w-full h-full object-cover object-center"
-                                        width={300}
-                                        height={300}
-                                    />
-                                </div>
+                                {/* Clickable Product Image */}
+                                <Link href={`/product/${product.slug}`} className="block">
+                                    <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75 transition duration-200 cursor-pointer">
+                                        <Image
+                                            src={product.imageUrl}
+                                            alt={`${product.name} - Product Image`}
+                                            className="w-full h-full object-cover object-center"
+                                            width={300}
+                                            height={300}
+                                        />
+                                    </div>
+                                </Link>
+                                
                                 <div className="mt-4 flex justify-between">
                                     <div className="flex-1">
                                         <h3 className="text-sm font-medium text-gray-900 group-hover:text-primary transition duration-200">
@@ -166,7 +197,7 @@ export default function ProductsPage() {
                                         className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition duration-200 text-sm font-medium flex items-center justify-center gap-2"
                                     >
                                         <ShoppingCart className="h-4 w-4" />
-                                        Add to Cart
+                                        Add to Cart ({quantities[product._id] || 1})
                                     </button>
                                 </div>
                             </div>
@@ -181,13 +212,24 @@ export default function ProductsPage() {
                         </div>
                         <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
                         <p className="text-gray-600">
-                            We&apos;re working on adding more products to our collection.
+                            {searchTerm 
+                                ? `No products match "${searchTerm}". Try a different search term.`
+                                : "We're working on adding more products to our collection."
+                            }
                         </p>
+                        {searchTerm && (
+                            <button 
+                                onClick={() => setSearchTerm("")}
+                                className="mt-4 text-primary hover:underline"
+                            >
+                                Clear search
+                            </button>
+                        )}
                     </div>
                 )}
 
                 {/* Pagination or Load More */}
-                {products.length > 0 && (
+                {filteredProducts.length > 0 && (
                     <div className="mt-12 text-center">
                         <button className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-200">
                             Load More Products
